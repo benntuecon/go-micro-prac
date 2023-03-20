@@ -6,7 +6,7 @@ import (
 )
 
 
-const webPort = ":8000"
+const webPort = ":80"
 type Config struct {}
 
 func main() {
@@ -18,7 +18,6 @@ func main() {
 	srv := &http.Server{
 		Addr: webPort,
 		Handler: app.routes(),
-
 	}
 
 

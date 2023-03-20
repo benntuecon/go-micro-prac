@@ -1,2 +1,2 @@
-# go-micro-prac
+# go-micro-practice
 Practicing micro service architecture in go lang.

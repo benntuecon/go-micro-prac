@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  broker:
+    build: 
+      context: ./../broker-service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:80"
+    deploy:
+      mode: replicated
+      replicas: 1
+
+
+  web:
+    build:
+      context: ./../react-frontend
+      dockerfile: Dockerfile
+    
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - ./../react-frontend:/app
+
+
+
