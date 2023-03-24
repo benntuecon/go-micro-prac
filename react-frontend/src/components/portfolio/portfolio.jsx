@@ -53,7 +53,7 @@ const Portfolio = () => {
                         <img src={santorini} alt='' />
                     </div>
                     <h3>Golang micro service {goProjects}</h3>
-                    <a href="https://github.com/benntuecon/JAVA_santorini" className='btn' target='_blank'>GitHub</a>
+                    <a href="https://github.com/benntuecon/go-micro-prac" className='btn' target='_blank'>GitHub</a>
 
                     <button onClick={handleGoProject}>button</button>
 
