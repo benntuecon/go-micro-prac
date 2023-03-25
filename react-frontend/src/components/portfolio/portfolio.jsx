@@ -20,6 +20,31 @@ const Portfolio = () => {
             .then(data => setGoProject(data.msg))
             .catch(err => console.log(err))
     }
+
+    const handleGoProjectAuth = () => {
+        let body = {
+            action: "auth",
+            auth: {
+                email: "admin@example.com",
+                password: "verysecret",
+            }
+        }
+        const headers = new Headers()
+        headers.append('Content-Type', 'application/json')
+        body = JSON.stringify(body)
+
+        let payload = {
+            method: 'POST',
+            body,
+            headers
+        }
+
+        fetch('http://localhost:8080/handle', payload)
+            .then(res => res.json())
+            .then(data => setGoProject(data.msg))
+            .catch(err => console.log(err))
+    }
+
     return (
         <section id='portfolio'>
             <h2>Selected Projects</h2>
@@ -29,7 +54,7 @@ const Portfolio = () => {
                         <img src={DASH} alt='' />
                     </div>
                     <h3>Python Fastapi Dash webapp</h3>
-                    <a href="https://github.com/benntuecon/dash-website" className='btn' target='_blank'>GitHub</a>
+                    <a href="https://github.com/benntuecon/dash-website" className='btn' target='_blank' rel='noreferrer'>GitHub</a>
 
                 </article>
                 <article className='portfolio__item'>
@@ -55,7 +80,8 @@ const Portfolio = () => {
                     <h3>Golang micro service {goProjects}</h3>
                     <a href="https://github.com/benntuecon/go-micro-prac" className='btn' target='_blank'>GitHub</a>
 
-                    <button onClick={handleGoProject}>button</button>
+                    <button onClick={handleGoProject}>broker</button>
+                    <button onClick={handleGoProjectAuth}>Auth</button>
 
                 </article>
 

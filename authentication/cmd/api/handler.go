@@ -20,7 +20,7 @@ func (app *Config) Authentication(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := app.models.User.GetByEmail(rPayload.Email)
+	user, err := app.Models.User.GetByEmail(rPayload.Email)
 	if err != nil {
 		app.errorJSON(w, errors.New("email not exist"), http.StatusBadRequest)
 		return
@@ -38,5 +38,5 @@ func (app *Config) Authentication(w http.ResponseWriter, r *http.Request) {
 		Data: user,
 	}
 
-	err = app.writeJSON(w, http.StatusOK, payload, nil)
+	app.writeJSON(w, http.StatusAccepted, payload, nil)
 }

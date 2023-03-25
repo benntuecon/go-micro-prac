@@ -16,7 +16,7 @@ services:
       postgres:
         condition: service_healthy
 
-  authentification:
+  authentication:
     build: 
       context: ./../authentication
       dockerfile: Dockerfile
