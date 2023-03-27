@@ -48,7 +48,17 @@ func main() {
 		Models: data.New(client),
 	}
 
-	go app.serve()
+	log.Print("log server started on port ", webPort)
+	// go app.serve()
+	srv := &http.Server{
+		Addr:    webPort,
+		Handler: app.routes(),
+	}
+	err = srv.ListenAndServe()
+	if err != nil {
+		log.Print("log server fail to start ", err)
+		log.Fatal(err)
+	}
 
 }
 
@@ -67,7 +77,7 @@ func (app *Config) serve() {
 
 func connectToMongo() (*mongo.Client, error) {
 	// build the connection options
-	clientOption, err := options.Client().ApplyURI(mongoUrl)
+	clientOption := options.Client().ApplyURI(mongoUrl)
 	clientOption.SetAuth(options.Credential{
 		Username: "admin",
 		Password: "Password",
@@ -80,6 +90,7 @@ func connectToMongo() (*mongo.Client, error) {
 		log.Print("error connecting to mongo ", err)
 		return nil, err
 	}
+	log.Print("connected to mongo")
 
 	return c, nil
 }

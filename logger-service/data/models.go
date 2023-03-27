@@ -41,11 +41,12 @@ func (l LogEntry) Insert(entry LogEntry) error {
 		Time:   time.Now(),
 	}
 
-	_, err := collection.InsertOne(context.Background(), entry)
+	_, err := collection.InsertOne(context.Background(), entryForLog)
 	if err != nil {
 		log.Print("error inserting log entry ", err)
 		return err
 	}
+	return nil
 }
 
 func (l LogEntry) All() ([]LogEntry, error) {
@@ -74,7 +75,7 @@ func (l LogEntry) All() ([]LogEntry, error) {
 			return nil, err
 		}
 
-		ret = append(ret, &entry)
+		ret = append(ret, entry)
 	}
 
 	return ret, nil
@@ -93,7 +94,7 @@ func (l *LogEntry) FetONe(id string) (*LogEntry, error) {
 	}
 
 	var entry LogEntry
-	err := collection.FindOne(ctx, bson.M{{"_id", docID}}).Decode(&entry)
+	err = collection.FindOne(ctx, bson.M{"_id": docID}).Decode(&entry)
 	if err != nil {
 		log.Print("error getting log entry ", err)
 		return nil, err
@@ -102,7 +103,7 @@ func (l *LogEntry) FetONe(id string) (*LogEntry, error) {
 	return &entry, nil
 }
 
-func (l *LongEntry) DropCollection() error {
+func (l *LogEntry) DropCollection() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
