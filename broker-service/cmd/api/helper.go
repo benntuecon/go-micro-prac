@@ -7,23 +7,19 @@ import (
 	"net/http"
 )
 
-
 type jsonResponse struct {
-	Err bool `json:"err"`
-	Msg string `json:"msg"`
-	Data any `json:"data,omitempty"`
-
+	Err  bool   `json:"err"`
+	Msg  string `json:"msg"`
+	Data any    `json:"data,omitempty"`
 }
 
-
+// readJSON tries to read the body of a request and converts it into JSON
 func (app *Config) readJSON(w http.ResponseWriter, r *http.Request, data any) error {
-	maxBytes := 1_048_576
-
+	maxBytes := 1048576 // one megabyte
 
 	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))
 
 	dec := json.NewDecoder(r.Body)
-	dec.DisallowUnknownFields()
 	err := dec.Decode(data)
 	if err != nil {
 		return err
@@ -31,12 +27,11 @@ func (app *Config) readJSON(w http.ResponseWriter, r *http.Request, data any) er
 
 	err = dec.Decode(&struct{}{})
 	if err != io.EOF {
-		return errors.New("request body have two JSON value")
+		return errors.New("body must have only a single JSON value")
 	}
+
 	return nil
 }
-
-
 
 func (app *Config) writeJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error {
 	out, err := json.MarshalIndent(data, "", "\t")
@@ -52,7 +47,7 @@ func (app *Config) writeJSON(w http.ResponseWriter, status int, data any, header
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	_, err  =  w.Write(out)
+	_, err = w.Write(out)
 	if err != nil {
 		return err
 	}
