@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, useRef } from 'react'
 import './about.css'
 // import ME from '../../assets/me.jpg'
 import { FaDocker, FaReact, FaAws } from 'react-icons/fa'
@@ -9,13 +9,39 @@ import {
     SiJava, SiCsharp, SiRedis, SiPostgresql, SiJupyter, SiNumpy, SiPandas, SiTensorflow, SiKeras, SiApachespark, SiPlotly,
 } from 'react-icons/si'
 
+const AboutMeItem = ({ icon, text }) => {
+    const alreadyHoveredRef = useRef(false)
+    const handleHover = () => {
+        if (alreadyHoveredRef.current) return
+        alreadyHoveredRef.current = true
+
+        fetch('http://localhost:3000/log', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                item: text // or any other data you want to send in the post request
+            })
+        }).then(response => {
+            console.log(response)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+    const handleMouseLeave = () => {
+        alreadyHoveredRef.current = false;
+    };
+
+    return (
+        <div className='about__me-img' onMouseOver={handleHover} onMouseLeave={handleMouseLeave}>
+            {icon}
+            {text}
+        </div>
+    )
+}
 
 const About = () => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
-    const handleMouseHover = () => {
-        setIsHovered(!isHovered)
-    }
 
     return (
         <section id='about'>
@@ -27,126 +53,42 @@ const About = () => {
                     </h2>
                     <br></br>
                     <div className='about__mes'>
-                        <div className='about__me-img'>
-                            <SiPython className="icon" />
-                            Python
-                        </div>
-                        <div className='about__me-img'>
-                            <SiJupyter className="icon" />
-                            Jupyter
-                        </div>
-                        <div className='about__me-img'>
-                            <SiKeras className="icon" />
-                            Keras
-                        </div>
-                        <div className='about__me-img'>
-                            <SiTensorflow className="icon" />
-                            Tensorflow
-                        </div>
-                        <div className='about__me-img'>
-                            <SiPandas className="icon" />
-                            Pandas
-                        </div>
-                        <div className='about__me-img'>
-                            <SiNumpy className="icon" />
-                            Numpy
-                        </div>
-                        <div className='about__me-img'>
-                            <h2 className="icon">ResNet</h2>
-                        </div>
-                        <div className='about__me-img'>
-                            <h2 className="icon">NASNet</h2>
-                        </div>
-                        <div className='about__me-img'>
-                            <h2 className="icon">BERT</h2>
-                        </div>
-                        <div className='about__me-img'>
-                            <SiApachespark className="icon" />
-                            Apache Spark
-                        </div>
-                        <div className='about__me-img'>
-                            <SiScala className="icon" />
-                            Scala
-                        </div>
-                        <div className='about__me-img'>
-                            <SiPlotly className="icon" />
-                            Plotly
-                        </div>
+                        <AboutMeItem icon={<SiPython className="icon" />} text="Python" />
+                        <AboutMeItem icon={<SiJupyter className="icon" />} text="Jupyter" />
+                        <AboutMeItem icon={<SiKeras className="icon" />} text="Keras" />
+                        <AboutMeItem icon={<SiTensorflow className="icon" />} text="Tensorflow" />
+                        <AboutMeItem icon={<SiPandas className="icon" />} text="Pandas" />
+                        <AboutMeItem icon={<SiNumpy className="icon" />} text="Numpy" />
+                        <AboutMeItem icon={<h2 className="icon">ResNet</h2>} />
+                        <AboutMeItem icon={<h2 className="icon">NASNet</h2>} />
+                        <AboutMeItem icon={<h2 className="icon">BERT</h2>} />
+                        <AboutMeItem icon={<SiApachespark className="icon" />} text="Apache Spark" />
+                        <AboutMeItem icon={<SiScala className="icon" />} text="Scala" />
+                        <AboutMeItem icon={<SiPlotly className="icon" />} text="Plotly" />
                     </div>
+
                 </div>
                 <div className='about__me'>
                     <h2 >Software Engineering</h2>
                     <br></br>
                     <div className='about__mes'>
-                        <div className='about__me-img'>
-                            <SiPython className="icon" />
-                            Python
-                        </div>
-                        <div className='about__me-img'>
-                            <DiNodejs className="icon" />
-                            Nodejs
-                        </div>
-                        <div className='about__me-img'>
-                            <SiDjango className="icon" />
-                            Django
-                        </div>
-                        <div className='about__me-img'>
-                            <SiFastapi className="icon" />
-                            Fastapi
-                        </div>
-                        <div className='about__me-img'>
-                            <SiFlask className="icon" />
-                            Flask
-                        </div>
-                        <div className='about__me-img'>
-                            <FaDocker className="icon" />
-                            Docker
-                        </div>
-                        <div className='about__me-img'>
-                            <SiKubernetes className="icon" />
-                            Kubernetes
-                        </div>
-                        <div className='about__me-img'>
-                            <FaAws className='icon' />
-                            AWS
-                        </div>
-                        <div className='about__me-img'>
-                            <SiGithub className='icon' />
-                            GitHub
-                        </div>
-                        <div className='about__me-img'>
-                            <SiVim className="icon" />
-                            Vim
-                        </div>
-                        <div className='about__me-img'>
-                            <SiScala className="icon" />
-                            Scala
-                        </div>
-                        <div className='about__me-img'>
-                            <SiJava className="icon" />
-                            Java
-                        </div>
-                        <div className='about__me-img'>
-                            <SiCsharp className="icon" />
-                            C#
-                        </div>
-                        <div className='about__me-img'>
-                            <SiRedis className="icon" />
-                            Redis
-                        </div>
-                        <div className='about__me-img'>
-                            <SiPostgresql className="icon" />
-                            PostgresSQL
-                        </div>
-                        <div className='about__me-img'>
-                            <SiNginx className="icon" />
-                            Nginx
-                        </div>
-                        <div className='about__me-img'>
-                            <FaReact className="icon" />
-                            React JS
-                        </div>
-
+                        <AboutMeItem icon={<SiPython className="icon" />} text="Python" />
+                        <AboutMeItem icon={<DiNodejs className="icon" />} text="Nodejs" />
+                        <AboutMeItem icon={<SiDjango className="icon" />} text="Django" />
+                        <AboutMeItem icon={<SiFastapi className="icon" />} text="Fastapi" />
+                        <AboutMeItem icon={<SiFlask className="icon" />} text="Flask" />
+                        <AboutMeItem icon={<FaDocker className="icon" />} text="Docker" />
+                        <AboutMeItem icon={<SiKubernetes className="icon" />} text="Kubernetes" />
+                        <AboutMeItem icon={<FaAws className='icon' />} text="AWS" />
+                        <AboutMeItem icon={<SiGithub className='icon' />} text="GitHub" />
+                        <AboutMeItem icon={<SiVim className="icon" />} text="Vim" />
+                        <AboutMeItem icon={<SiScala className="icon" />} text="Scala" />
+                        <AboutMeItem icon={<SiJava className="icon" />} text="Java" />
+                        <AboutMeItem icon={<SiCsharp className="icon" />} text="C#" />
+                        <AboutMeItem icon={<SiRedis className="icon" />} text="Redis" />
+                        <AboutMeItem icon={<SiPostgresql className="icon" />} text="PostgreSQL" />
+                        <AboutMeItem icon={<SiNginx className="icon" />} text="Nginx" />
+                        <AboutMeItem icon={<FaReact className="icon" />} text="React" />
 
                     </div>
                 </div>

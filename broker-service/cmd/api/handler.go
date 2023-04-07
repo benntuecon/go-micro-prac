@@ -41,10 +41,16 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 	case "auth":
 		app.authenticate(w, requestPayload.Auth)
 
+	case "log":
+
 	default:
 		app.errorJSON(w, errors.New("invalid action"))
 		return
 	}
+
+}
+
+func (app *Config) log() {
 
 }
 

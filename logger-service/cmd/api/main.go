@@ -14,7 +14,7 @@ import (
 const (
 	webPort  = ":80"
 	rpcPort  = ":5001"
-	gRpcPort = ":50001"
+	gRPCPort = ":50001"
 	mongoUrl = "mongodb://mongo:27017"
 )
 
@@ -48,26 +48,15 @@ func main() {
 		Models: data.New(client),
 	}
 
+	// start the gRPC server
+	go app.gRPCListen()
+
 	log.Print("log server started on port ", webPort)
-	// go app.serve()
 	srv := &http.Server{
 		Addr:    webPort,
 		Handler: app.routes(),
 	}
 	err = srv.ListenAndServe()
-	if err != nil {
-		log.Print("log server fail to start ", err)
-		log.Fatal(err)
-	}
-
-}
-
-func (app *Config) serve() {
-	srv := &http.Server{
-		Addr:    webPort,
-		Handler: app.routes(),
-	}
-	err := srv.ListenAndServe()
 	if err != nil {
 		log.Print("log server fail to start ", err)
 		log.Fatal(err)
