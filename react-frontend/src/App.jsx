@@ -4,16 +4,20 @@ import Contact from './components/contact/Contact'
 import Header from './components/header/Header'
 import Nav from './components/nav/nav'
 import Portfolio from './components/portfolio/portfolio'
+import UserProvider from './UserProvider'
+
 
 
 const App = () => {
     return (
         <>
-            <Header />
-            <Nav />
-            <About />
-            <Portfolio />
-            <Contact />
+            <UserProvider>
+                <Header />
+                <Nav />
+                <About />
+                <Portfolio />
+                <Contact />
+            </UserProvider>
         </>
     )
 }

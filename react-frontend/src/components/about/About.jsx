@@ -1,4 +1,4 @@
-import { React, useRef } from 'react'
+import { React, useRef, useContext } from 'react'
 import './about.css'
 // import ME from '../../assets/me.jpg'
 import { FaDocker, FaReact, FaAws } from 'react-icons/fa'
@@ -9,19 +9,24 @@ import {
     SiJava, SiCsharp, SiRedis, SiPostgresql, SiJupyter, SiNumpy, SiPandas, SiTensorflow, SiKeras, SiApachespark, SiPlotly,
 } from 'react-icons/si'
 
+
+import UserContext from '../../UserContext';
+
 const AboutMeItem = ({ icon, text }) => {
+    const { user } = useContext(UserContext);
     const alreadyHoveredRef = useRef(false)
     const handleHover = () => {
         if (alreadyHoveredRef.current) return
         alreadyHoveredRef.current = true
 
-        fetch('http://localhost:3000/log', {
+        fetch('http://localhost:8080/log-grpc', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                item: text // or any other data you want to send in the post request
+                text, // or any other data you want to send in the post request
+                user
             })
         }).then(response => {
             console.log(response)
