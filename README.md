@@ -1,6 +1,7 @@
 # go-micro-practice
 
-![]()
+![architecture](Go-micro-prac-architecture.jpg
+)
 
 
 Practicing micro service architecture in go lang.
